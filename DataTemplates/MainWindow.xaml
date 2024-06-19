@@ -1,0 +1,83 @@
+﻿<Window x:Class="DataTemplates.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DataTemplates"
+       
+        mc:Ignorable="d"
+        Title="MainWindow" Height="550" Width="400">
+    <Window.Resources>
+        <local:ConvertCategoriesProductRus x:Key="convert"/>
+        <DataTemplate x:Key="productTemplete">
+            <Border x:Name="border"
+                    BorderBrush="Aqua"
+                    Background="Blue"
+                    BorderThickness="2"
+                    Margin="5"
+                    Padding="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.RowSpan="3"
+                           Width="70"
+                           Height="70"
+                           Source="{Binding Path=ProductImage}"/>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="1"
+                               Margin="5"
+                               Text="Наименование товара:"/>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="2"
+                                Margin="5"
+                               Text="{Binding Path = PruductName}"/>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                                Margin="5"
+                               Text="Цена"/>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="2"
+                                Margin="5"
+                               Text="{Binding Path = ProductPrice}"/>
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="1"
+                               Margin="5"
+                               Text="Категория товара"/>
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="2"
+                               Margin="5"
+                               Text="{Binding Path=Category, Converter={StaticResource convert}}"/>
+                </Grid>
+            </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=Category}">
+                    <DataTrigger.Value>
+                        <local:CategoriesProduct>Food</local:CategoriesProduct>
+                    </DataTrigger.Value>
+                    <Setter TargetName="border" Property="Background" Value="green"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </Window.Resources>
+    <StackPanel>
+        <TextBlock x:Name="TitleProducts" 
+                   Text="Список продуктов:"
+                   FontSize="20"
+                   HorizontalAlignment="Center"/>
+        <ListBox x:Name="listProducts"
+                 HorizontalAlignment="Center"
+                 Margin="10"
+                 ItemTemplate="{StaticResource productTemplete}"
+                 HorizontalContentAlignment="Stretch"/>
+    </StackPanel>
+</Window>
